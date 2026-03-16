@@ -1,195 +1,195 @@
-# Resume Tailor — плагин для Claude Code
+# Resume Tailor — Claude Code Plugin
 
-ATS-оптимизированная адаптация резюме, заменяющая универсальные AI-сервисы по работе с резюме. Вместо шаблонной переработки этот навык адаптирует ваше резюме **под конкретную вакансию** — подбирая ключевые слова, расставляя акценты и структурируя контент как для рекрутеров, так и для ATS-систем.
+ATS-optimized resume tailoring that replaces generic AI resume services. Instead of a one-size-fits-all rewrite, this skill tailors your resume **per job description** — matching keywords, adjusting emphasis, and structuring content for both human recruiters and ATS systems.
 
-## Что он делает
+## What It Does
 
-| Этап | Что происходит |
-|------|---------------|
-| **Приём данных** | Считывает ваше резюме (PDF/текст) + описание вакансии (текст или URL) |
-| **Анализ** | Разбирает оба документа, формирует gap-анализ: совпадения, пробелы, отличия |
-| **Обратная связь** | Показывает структурированный обзор резюме: сильные стороны, проблемы, таблица соответствия вакансии |
-| **Стратегические вопросы** | Задаёт 3-5 целевых вопросов: локаль, позиционирование, акценты, охват домена |
-| **ATS-оптимизация** | Переписывает под конкретную роль: адаптированное саммари, сгруппированные навыки, расстановка ключевых слов |
-| **Черновик + оценка** | Генерирует черновик в markdown с оценкой ATS-совместимости и таблицей покрытия ключевых слов |
-| **Финальный результат** | Создаёт `.docx` через pandoc, опционально генерирует сопроводительное письмо |
+| Stage | What Happens |
+|-------|-------------|
+| **Intake** | Reads your resume (PDF/text) + job description (text or URL) |
+| **Analysis** | Parses both documents, produces gap analysis: matches, gaps, differentiators |
+| **Feedback** | Shows you a structured resume review: strengths, issues, gap table vs the JD |
+| **Strategic Questions** | Asks 3-5 targeted questions: locale, positioning, emphasis, domain scope |
+| **ATS Optimization** | Rewrites for the specific role: tailored summary, grouped skills, keyword placement |
+| **Draft + Scoring** | Generates markdown draft with ATS score estimate and keyword coverage table |
+| **Final Output** | Produces `.docx` via pandoc, optionally generates a cover letter |
 
-### Почему не просто AI-сервис для резюме?
+### Why Not Just Use an AI Resume Service?
 
-AI-сервисы для резюме применяют одну и ту же трансформацию к каждому резюме:
-- Шаблонное executive summary («Опытный лидер с 15+ летним стажем...»)
-- Чрезмерно узкая фокусировка на домене (вырезает смежный опыт)
-- Отсутствие таргетирования ключевых слов под конкретную вакансию
-- Шаблонное форматирование без стратегического мышления
+AI resume services apply the same transformation to every resume:
+- Generic executive summary ("Seasoned leader with 15+ years...")
+- Over-narrow domain focus (strips adjacent experience)
+- No job-specific keyword targeting
+- Template formatting without strategic thinking
 
-Этот навык сначала определяет, **что нужно конкретной вакансии**, и только потом работает с вашим контентом.
+This skill asks **what the specific job needs** before touching your content.
 
-## Возможности
+## Features
 
-- **Ориентация на вакансию** — каждое решение по адаптации основано на целевом описании вакансии
-- **Обратная связь по резюме** — структурированный анализ с сильными сторонами, проблемами и таблицей соответствия перед адаптацией
-- **ATS-скоринг** — оценка совпадения с разбивкой по покрытию ключевых слов
-- **Поддержка локалей** — EN/US и RU/СНГ конвенции (порядок секций, личная информация, тон)
-- **Мастер-профиль** — хранит полные данные о вашей карьере, никогда не теряет контекст при сужении
-- **Защита от антипаттернов** — блокирует шаблонные вступления, переспам ключевыми словами, чрезмерное сокращение
-- **Сопроводительное письмо** — опционально, также адаптировано под конкретную роль
-- **DOCX-вывод** — ATS-совместимый одноколоночный документ через pandoc
+- **Job-description-driven** — every tailoring decision is based on the target JD
+- **Resume feedback** — structured analysis with strengths, issues, and gap table before tailoring
+- **ATS scoring** — estimated match score with keyword coverage breakdown
+- **Locale support** — EN/US and RU/CIS conventions (section order, personal info, tone)
+- **Master profile** — stores your full career data, never loses context when narrowing
+- **Anti-pattern protection** — blocks generic openers, keyword stuffing, over-condensation
+- **Cover letter** — optional, also tailored to the specific role
+- **DOCX output** — ATS-friendly single-column document via pandoc
 
-## Установка
+## Installation
 
-### Предварительные требования
+### Prerequisites
 
-- Установленный [Claude Code](https://docs.anthropic.com/en/docs/claude-code) CLI
-- Установленный [pandoc](https://pandoc.org/installing.html) (для генерации DOCX)
+- [Claude Code](https://docs.anthropic.com/en/docs/claude-code) CLI installed
+- [pandoc](https://pandoc.org/installing.html) installed (for DOCX generation)
 
-Проверка pandoc:
+Verify pandoc:
 ```bash
 pandoc --version
 ```
 
-### Вариант 1: Установка с GitHub (рекомендуется)
+### Option 1: Install from GitHub (Recommended)
 
 ```bash
-# Добавить маркетплейс (только в первый раз)
+# Add the marketplace (first time only)
 claude /plugin marketplace add olegvg/resume-tailor-plugin
 
-# Установить плагин
+# Install the plugin
 claude /plugin install resume-tailor
 ```
 
-### Вариант 2: Клонирование и локальная установка
+### Option 2: Clone and Install Locally
 
 ```bash
-# Клонировать репозиторий
+# Clone the repository
 git clone https://github.com/olegvg/resume-tailor-plugin.git
 
-# Установить из локального пути
+# Install from local path
 claude /plugin install --path ./resume-tailor-plugin
 ```
 
-### Вариант 3: Ручная установка
+### Option 3: Manual Installation
 
-Скопируйте плагин в директорию плагинов Claude Code:
+Copy the plugin into your Claude Code plugins directory:
 
 ```bash
-# Клонировать
+# Clone
 git clone https://github.com/olegvg/resume-tailor-plugin.git
 
-# Скопировать в директорию плагинов Claude Code
+# Copy to Claude Code plugins directory
 cp -r resume-tailor-plugin ~/.claude/plugins/resume-tailor-plugin
 ```
 
-После ручной установки перезапустите Claude Code для обнаружения навыка.
+After manual installation, restart Claude Code for the skill to be detected.
 
-## Использование
+## Usage
 
-### Базовое: Резюме + Описание вакансии
-
-```
-/resume-tailor
-
-Предоставьте:
-- Резюме: path/to/your-resume.pdf
-- Вакансия: https://linkedin.com/jobs/view/123456
-```
-
-Или вставьте описание вакансии напрямую:
+### Basic: Resume + Job Description
 
 ```
 /resume-tailor
 
-Резюме: ~/Documents/my-resume.pdf
-
-Описание вакансии:
-Мы ищем Senior Backend Engineer...
-[вставьте полный текст вакансии]
+Provide:
+- Resume: path/to/your-resume.pdf
+- Job: https://linkedin.com/jobs/view/123456
 ```
 
-### С мастер-профилем
-
-При первом запуске навык создаёт **мастер-профиль** — полное хранилище данных о вашей карьере в `docs/resume/master-profile.md`. Последующие запуски используют этот профиль как базу:
+Or paste the job description directly:
 
 ```
 /resume-tailor
 
-Вакансия: https://greenhouse.io/job/senior-platform-engineer-at-stripe
+Resume: ~/Documents/my-resume.pdf
+
+Job Description:
+We are looking for a Senior Backend Engineer...
+[paste full JD text]
 ```
 
-Навык спросит: «Использовать ваш мастер-профиль как базу. Верно?»
+### With Master Profile
 
-### Чего ожидать
+On first run, the skill creates a **master profile** — a comprehensive data store of your career at `docs/resume/master-profile.md`. Subsequent runs use this profile as the base:
 
-1. **Фаза анализа** — навык разбирает ваше резюме и вакансию, определяет совпадения и пробелы
-2. **Обратная связь** — структурированный обзор резюме: сильные стороны для этой роли, проблемы для проработки, таблица соответствия, показывающая каждое требование вакансии и где оно присутствует (или отсутствует) в вашем резюме
-3. **Вопросы** — 3-5 стратегических вопросов (локаль, позиционирование, акценты)
-4. **Черновик** — резюме в markdown с секцией ATS-анализа:
-   - Оценка ATS-совместимости (%)
-   - Таблица покрытия ключевых слов (какие требования вакансии где представлены)
-   - Оставшиеся пробелы
-5. **Ревью** — вы даёте обратную связь, навык итерирует
-6. **Финальный результат** — файл `.docx`, готовый к отправке
+```
+/resume-tailor
 
-### Выходные файлы
+Job: https://greenhouse.io/job/senior-platform-engineer-at-stripe
+```
+
+The skill will ask: "Using your master profile as the base. Correct?"
+
+### What to Expect
+
+1. **Analysis phase** — skill parses your resume and JD, identifies matches and gaps
+2. **Feedback** — structured resume review: strengths for this role, issues to address, gap table showing every JD requirement and where it appears (or doesn't) in your resume
+3. **Questions** — 3-5 strategic questions (locale, positioning, emphasis)
+4. **Draft** — markdown resume with ATS analysis section showing:
+   - Estimated ATS score (%)
+   - Keyword coverage table (which JD requirements appear where)
+   - Gaps remaining
+5. **Review** — you provide feedback, skill iterates
+6. **Final output** — `.docx` file ready to submit
+
+### Output Files
 
 ```
 docs/resume/
-  master-profile.md                    # Данные о вашей карьере (создаётся один раз)
-  draft-stripe-2026-03-16.md           # Markdown-черновик с ATS-анализом
-  John-Doe-Senior-Engineer-resume.docx # Финальный DOCX
-  cover-letter-stripe-2026-03-16.md    # Сопроводительное письмо (если запрошено)
-  cover-letter-stripe-2026-03-16.docx  # Сопроводительное письмо DOCX
+  master-profile.md                    # Your career data (created once)
+  draft-stripe-2026-03-16.md           # Markdown draft with ATS analysis
+  John-Doe-Senior-Engineer-resume.docx # Final DOCX
+  cover-letter-stripe-2026-03-16.md    # Cover letter (if requested)
+  cover-letter-stripe-2026-03-16.docx  # Cover letter DOCX
 ```
 
-### Пользовательский шаблон DOCX
+### Custom DOCX Template
 
-Для брендированного оформления поместите шаблон Word в `docs/resume/reference.docx`. Навык будет использовать его для единообразных шрифтов, цветов и отступов:
+For branded styling, place a Word template at `docs/resume/reference.docx`. The skill will use it for consistent fonts, colors, and spacing:
 
 ```bash
-# Навык обнаруживает и использует его автоматически
+# The skill detects and uses it automatically
 docs/resume/reference.docx
 ```
 
-## Использование с Claude Desktop
+## Using with Claude Desktop
 
-Claude Desktop не поддерживает плагины напрямую, но вы можете использовать этот навык через **Проекты с пользовательскими инструкциями**.
+Claude Desktop does not support plugins directly, but you can use this skill through **Projects with custom instructions**.
 
-### Настройка
+### Setup
 
-1. Откройте **Claude Desktop** → **Projects** → **Create New Project**
-2. Назовите его «Resume Tailor» (или любое другое имя)
-3. Нажмите **Set custom instructions**
-4. Вставьте полное содержимое `skills/resume-tailor/SKILL.md` в поле инструкций
-5. Загрузите справочные файлы как знания проекта:
+1. Open **Claude Desktop** → **Projects** → **Create New Project**
+2. Name it "Resume Tailor" (or any name you prefer)
+3. Click **Set custom instructions**
+4. Paste the full content of `skills/resume-tailor/SKILL.md` into the instructions field
+5. Upload the reference files as project knowledge:
    - `skills/resume-tailor/references/ats-rules.md`
    - `skills/resume-tailor/references/locale-en.md`
    - `skills/resume-tailor/references/locale-ru.md`
    - `skills/resume-tailor/references/section-templates.md`
 
-### Использование в Claude Desktop
+### Usage in Claude Desktop
 
-1. Откройте проект «Resume Tailor»
-2. Начните новый чат
-3. Прикрепите PDF с резюме и вставьте/введите описание вакансии
-4. Claude будет следовать многоэтапному рабочему процессу из инструкций
+1. Open the "Resume Tailor" project
+2. Start a new chat
+3. Attach your resume PDF and paste/type the job description
+4. Claude will follow the multi-stage workflow from the instructions
 
-### Ограничения в Claude Desktop
+### Limitations in Claude Desktop
 
-| Функция | Claude Code | Claude Desktop |
+| Feature | Claude Code | Claude Desktop |
 |---------|------------|----------------|
-| Автоматическое обнаружение навыка | Да | Нет (ручная настройка проекта) |
-| WebFetch для URL вакансий | Да | Нет (вставляйте текст вакансии вручную) |
-| Доступ к файловой системе | Да (чтение/запись файлов) | Нет (используйте вложения) |
-| Генерация DOCX | Да (через pandoc) | Нет (выводит текст в markdown) |
-| Сохранение мастер-профиля | Да (сохраняется на диск) | Нет (только в рамках диалога) |
-| UI AskUserQuestion | Да (структурированные варианты) | Нет (свободный текст в чате) |
+| Automatic skill detection | Yes | No (manual project setup) |
+| WebFetch for job URLs | Yes | No (paste JD text manually) |
+| File system access | Yes (reads/writes files) | No (use attachments) |
+| DOCX generation | Yes (via pandoc) | No (outputs markdown text) |
+| Master profile persistence | Yes (saved to disk) | No (per-conversation only) |
+| AskUserQuestion UI | Yes (structured choices) | No (free-text conversation) |
 
-Для полной функциональности используйте Claude Code. Claude Desktop хорошо работает на этапах анализа, обратной связи и генерации черновика — вам просто нужно будет скопировать результат в документ вручную.
+For full functionality, use Claude Code. Claude Desktop works well for the analysis, feedback, and draft generation stages — you'll just need to copy the output into a document manually.
 
-### Альтернатива: настройка MCP-сервера (продвинутый вариант)
+### Alternative: MCP Server Setup (Advanced)
 
-Если вы хотите, чтобы Claude Desktop имел доступ к локальным файлам (для чтения резюме и записи результатов), вы можете настроить [MCP-сервер файловой системы](https://github.com/anthropics/model-context-protocol-servers/tree/main/src/filesystem):
+If you want Claude Desktop to access local files (for reading resumes and writing output), you can set up the [filesystem MCP server](https://github.com/anthropics/model-context-protocol-servers/tree/main/src/filesystem):
 
-1. Отредактируйте `~/Library/Application Support/Claude/claude_desktop_config.json` (Mac) или `%APPDATA%\Claude\claude_desktop_config.json` (Windows):
+1. Edit `~/Library/Application Support/Claude/claude_desktop_config.json` (Mac) or `%APPDATA%\Claude\claude_desktop_config.json` (Windows):
 
 ```json
 {
@@ -206,64 +206,64 @@ Claude Desktop не поддерживает плагины напрямую, н
 }
 ```
 
-2. Перезапустите Claude Desktop
-3. Claude теперь может читать/записывать файлы в указанной директории
+2. Restart Claude Desktop
+3. Claude can now read/write files in the specified directory
 
-## Поддержка локалей
+## Locale Support
 
-### Английский/US (EN)
-- Без фото, без даты рождения, без семейного положения
-- Порядок секций: Контакты → Саммари → Навыки → Опыт → Образование
-- Максимум 1-2 страницы
-- Прямой, ориентированный на метрики тон
+### English/US (EN)
+- No photo, no DOB, no marital status
+- Section order: Contact → Summary → Skills → Experience → Education
+- 1-2 pages max
+- Direct, metrics-forward tone
 
-### Русский/СНГ (RU)
-- Фото и дата рождения ожидаются
-- Порядок секций: Контакты → Целевая должность → Образование → Опыт → Навыки → Сертификаты → Языки
-- Стандарт 2-3 страницы
-- Профессиональный формальный тон
-- Смешанная RU + EN техническая лексика
+### Russian/CIS (RU)
+- Photo and DOB expected
+- Section order: Contact → Target Role → Education → Experience → Skills → Certifications → Languages
+- 2-3 pages standard
+- Professional formal tone
+- Mixed RU + EN technical vocabulary
 
-Навык спрашивает, какую локаль использовать, и автоматически применяет соответствующие конвенции.
+The skill asks which locale to use and applies the appropriate conventions automatically.
 
-## Как работает ATS-скоринг
+## How ATS Scoring Works
 
-Навык оценивает ATS-совместимость по формуле:
+The skill estimates an ATS match score using:
 
 ```
-Score = 0.4 × покрытие_обязательных_навыков
-      + 0.2 × покрытие_желательных_навыков
-      + 0.2 × доля_количественных_достижений
-      + 0.1 × полнота_секций
-      + 0.1 × распределение_ключевых_слов
+Score = 0.4 × required_skills_coverage
+      + 0.2 × nice_to_have_coverage
+      + 0.2 × achievement_quantification_rate
+      + 0.1 × section_completeness
+      + 0.1 × keyword_distribution
 ```
 
-- **85%+** — Сильное совпадение, скорее всего пройдёт ATS-фильтры
-- **70-84%** — Среднее, зависит от конкуренции
-- **Ниже 70%** — Значительные пробелы, которые нужно закрыть
+- **85%+** — Strong match, likely passes ATS filters
+- **70-84%** — Moderate, depends on competition
+- **Below 70%** — Significant gaps to address
 
-## Структура проекта
+## Project Structure
 
 ```
 resume-tailor-plugin/
 ├── .claude-plugin/
-│   └── plugin.json                    # Манифест плагина
+│   └── plugin.json                    # Plugin manifest
 ├── skills/
 │   └── resume-tailor/
-│       ├── SKILL.md                   # Главный оркестратор (этапы, workflow, чеклист)
+│       ├── SKILL.md                   # Main orchestrator (stages, workflow, checklist)
 │       └── references/
-│           ├── ats-rules.md           # Правила ATS-форматирования и скоринг
-│           ├── locale-en.md           # Конвенции English/US
-│           ├── locale-ru.md           # Конвенции Russian/СНГ
-│           └── section-templates.md   # Шаблоны секций для обеих локалей
+│           ├── ats-rules.md           # ATS formatting rules & scoring
+│           ├── locale-en.md           # English/US conventions
+│           ├── locale-ru.md           # Russian/CIS conventions
+│           └── section-templates.md   # Section templates for both locales
 ├── LICENSE
 └── README.md
 ```
 
-## Лицензия
+## License
 
-MIT — см. [LICENSE](LICENSE).
+MIT — see [LICENSE](LICENSE).
 
-## Участие в разработке
+## Contributing
 
-Issues и PR приветствуются. Если вы обнаружили устаревшие ATS-правила или конвенции локалей, которые нужно обновить, пожалуйста, создайте issue.
+Issues and PRs welcome. If you find ATS rules that are outdated or locale conventions that need updating, please open an issue.
