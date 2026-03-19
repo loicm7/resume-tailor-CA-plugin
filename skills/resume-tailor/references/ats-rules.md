@@ -5,8 +5,11 @@
 ### Layout
 - Single column ONLY. No multi-column, no tables for layout, no text boxes
 - No graphics, icons, charts, progress bars for skill levels
-- Contact info in document body (NOT in header/footer — many ATS skip headers entirely)
+- Contact info in document body (NOT in header/footer — Workday and others skip headers entirely)
 - No "skill bars" or percentage ratings — ATS cannot parse visual skill levels
+- Photos can disrupt ATS parsing (shift text positions, break field extraction). For ATS submissions — no photo. Add photo only for direct submissions in EU/CIS markets where expected
+- No special characters (★ ● ◆) — use standard bullets or dashes
+- No em dashes in dates — use hyphens
 
 ### Section Headings
 Use these exact standard headings (ATS systems look for them):
@@ -14,10 +17,12 @@ Use these exact standard headings (ATS systems look for them):
 - RU: "Краткое описание", "Ключевые навыки", "Опыт работы", "Образование", "Сертификации"
 - Creative alternatives ("My Journey", "What I Bring") break ATS section detection
 
-### File Format
-- `.docx` — gold standard, 99%+ ATS parse rate
-- `.pdf` — acceptable but less reliable for some older systems
-- Never: `.pages`, `.odt`, Google Docs links
+### File Format (updated 2026)
+- `.pdf` (text-based) — now parses as well as DOCX across Greenhouse, Lever, Workday, iCIMS. Default choice — preserves formatting perfectly
+- `.docx` — still has 23% fewer parsing errors with design tools (Workday data); use when portal explicitly requests it or legacy ATS suspected
+- HTML-to-PDF (weasyprint, Puppeteer, Chrome print) — produces clean text-based PDFs that parse correctly
+- **Test:** if you can highlight and copy text in the PDF, ATS can read it
+- Never: `.pages`, `.odt`, Google Docs links, scanned/image-based PDFs
 
 ### Typography
 - Fonts: Calibri, Arial, Garamond, Cambria (10-12pt body, 13-14pt headings)
@@ -39,10 +44,13 @@ Use these exact standard headings (ATS systems look for them):
 ## Keyword Matching (How Modern ATS Works)
 
 ### Semantic NLP Matching (2025-2026)
-Modern ATS (Greenhouse, Lever, Workday) uses semantic understanding:
-- "Led a team of five" ≈ "managed five direct reports"
-- "Built CI/CD pipelines" ≈ "implemented continuous integration and delivery"
+Modern ATS (Greenhouse, Lever, Workday) uses semantic understanding — 91% accuracy vs 67% for keyword-only systems:
+- Greenhouse: semantic matching; "Managed teams" ≈ "Led teams"
+- Workday: NLP-based; maps "project management" → "program coordination" → "initiative leadership"
+- Lever: semantic matching with AI workflows
+- iCIMS: more traditional keyword matching with AI screening add-ons
 - Exact match is still strongest signal, but synonyms and related terms count
+- **Tailored resumes show 115% higher conversion rate** (6.5% vs 2.68% for generic). Job title alignment gives ~3.5x increase in interview rates
 
 ### Keyword Placement Strategy
 - Every required JD skill must appear in at least 2 places:
@@ -57,7 +65,8 @@ Modern ATS (Greenhouse, Lever, Workday) uses semantic understanding:
 - Job title from JD should be reflected in Executive Summary
 
 ### What NOT to Do
-- Never create an invisible/white-text keyword block
+- Never create an invisible/white-text keyword block — ManpowerGroup detects hidden text in ~100K resumes/year; Greenhouse found 1% of all resumes contain white text. ATS strips formatting on profile pages, exposing hidden text to recruiters
+- Never use prompt injection / hidden AI instructions in resume — 41% of US job seekers tried this; companies actively build detection
 - Never list skills without contextual demonstration in experience
 - Never repeat the same phrase verbatim more than twice
 
