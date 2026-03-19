@@ -20,6 +20,8 @@ Read these files at the appropriate stage — they contain rules, conventions, a
 - `references/locale-en.md` — English/US resume conventions
 - `references/locale-ru.md` — Russian/CIS resume conventions
 - `references/section-templates.md` — Section templates with slot markers for both locales
+- `references/html-template-en.html` — EN HTML template for weasyprint PDF (no photo, centered header, 170px skills grid)
+- `references/html-template-ru.html` — RU HTML template for weasyprint PDF (photo, flexbox header, 135px/8.5pt skills grid)
 
 ## Master Profile
 
@@ -47,7 +49,7 @@ Master profile structure:
 
 ### Visibility System
 
-The master profile may include a `Visibility` field on each role and section to control inclusion in generated resumes:
+The master profile may include a `Visibility` field on each role and section. If the master profile has no `Visibility` fields, treat all roles as `always`.
 
 | Value | Meaning | Behavior |
 |---|---|---|
@@ -55,8 +57,6 @@ The master profile may include a `Visibility` field on each role and section to 
 | `variant-specific` | Only in variants listed in `Variants` field | Include only if target variant matches or user explicitly requests |
 | `on-request` | Never include unless user explicitly asks | Skip by default |
 | `reference-only` | Alias/metadata, not content | Never include in any output |
-
-If the master profile has no `Visibility` fields, treat all roles as `always`.
 
 Variants are defined in the master profile's Visibility Schema section. Read them from there — do not hardcode.
 
@@ -190,8 +190,8 @@ Present a structured feedback report:
 - [Date overlaps, unexplained gaps, title inconsistencies — only if present]
 
 ### Recommendations
-- [Concrete suggestion 1 — e.g., "Your Role B metrics (30% cost reduction) directly map to their 'cost optimization' requirement — should be prominent"]
-- [Concrete suggestion 2 — e.g., "Your blockchain experience at Role C is a differentiator, not a distraction — reframe as 'distributed systems in adversarial environments'"]
+- [Concrete suggestion 1 — e.g., "Your Role X metrics (30% cost reduction) directly map to their 'cost optimization' requirement — should be prominent"]
+- [Concrete suggestion 2 — e.g., "Adjacent domain experience at Company Y is a differentiator, not a distraction — reframe as 'distributed systems in adversarial environments'"]
 ```
 
 ### Rules for Feedback
@@ -203,7 +203,7 @@ Present a structured feedback report:
 
 ### Excluded Roles Report
 
-If the master profile uses the Visibility system, present a separate block after the main feedback listing every role and section excluded from this resume and why:
+After the main feedback, present a separate block listing every role and section excluded from this resume and why:
 
 ```
 ### Excluded from This Resume
@@ -342,7 +342,8 @@ Write specifically for THIS role using the template from section-templates.md.
 - Cap at 3 appearances per keyword (no stuffing)
 
 ### 3.5 Education & Certifications
-- Apply locale-appropriate ordering (EN: after experience; RU: before experience)
+- Check master profile — education may be omitted per user preference
+- If included: apply locale-appropriate ordering (EN: after experience; RU: before experience)
 - Certifications relevant to the role should be prominent
 
 ### 3.6 Locale-Specific Adjustments
@@ -418,50 +419,51 @@ LOOP:
 ### 6.1 Prepare Clean Markdown
 Strip the ATS Analysis section (everything after the `<!-- ATS-ANALYSIS-START -->` marker).
 
-### 6.2 Generate DOCX
-```bash
-# Strip ATS analysis and convert to DOCX
-sed '/^<!-- ATS-ANALYSIS-START -->$/,$d' "docs/resume/draft-[slug]-[date].md" > /tmp/resume-clean.md
+### 6.2 Generate PDF via HTML + weasyprint
 
-# Check for custom template
-if [ -f "docs/resume/reference.docx" ]; then
-  pandoc /tmp/resume-clean.md -o "docs/resume/[Name]-[TargetRole]-resume.docx" \
-    --from markdown \
-    --reference-doc="docs/resume/reference.docx"
-else
-  pandoc /tmp/resume-clean.md -o "docs/resume/[Name]-[TargetRole]-resume.docx" \
-    --from markdown \
-    -V geometry:margin=0.75in \
-    -V fontsize=11pt
-fi
+**Why not pandoc?** Pandoc with xelatex ignores CSS styling and renders photos at full page size. Pandoc with wkhtmltopdf requires a separate binary. weasyprint renders HTML+CSS faithfully — photo sizing, flexbox layout, colors, fonts all work correctly.
+
+**Step 1: Create styled HTML**
+
+Save to `docs/resume/resume-[slug].html`. Use the appropriate HTML template as a starting point:
+- EN locale: `references/html-template-en.html` (centered header, no photo, 170px skills grid, 9pt skills)
+- RU locale: `references/html-template-ru.html` (flexbox header with photo, 135px skills grid, 8.5pt skills)
+
+Replace `[SLOT_MARKERS]` with actual content. Key design rules:
+- `break-inside: avoid` on `.role` and `.condensed` prevents page-split mid-role
+- RU skills: keep category labels short to prevent wrapping (e.g. "Лидерство" not "Техническое лидерство")
+- Photo: `docs/resume/photo.jpeg` (90x90px, border-radius 6px)
+
+**Step 2: Convert HTML to PDF**
+
+```bash
+cd docs/resume && DYLD_LIBRARY_PATH="$(brew --prefix)/lib" uv run weasyprint resume-[slug].html [Name]-[TargetRole].pdf
 ```
+
+Requires `weasyprint` (already in project deps via `uv add weasyprint`).
+System deps (`glib`, `pango`, `cairo`) are installed via brew.
+`DYLD_LIBRARY_PATH` is needed on macOS for weasyprint to find gobject.
+
+**Target page counts:**
+- EN locale: 2 pages max
+- RU locale: 3 pages max
+- If 4th page has only languages section — tighten line-height, margins, font sizes until it fits
 
 ### 6.3 Cover Letter (if requested)
 Generate using the cover letter template from `references/section-templates.md`:
-- Save markdown: `docs/resume/cover-letter-[slug]-[date].md`
+- Save HTML: `docs/resume/cover-letter-[slug]-[date].html`
 - Locale-appropriate tone and structure
-- Convert to DOCX:
-```bash
-if [ -f "docs/resume/reference.docx" ]; then
-  pandoc "docs/resume/cover-letter-[slug]-[date].md" -o "docs/resume/cover-letter-[slug]-[date].docx" \
-    --from markdown \
-    --reference-doc="docs/resume/reference.docx"
-else
-  pandoc "docs/resume/cover-letter-[slug]-[date].md" -o "docs/resume/cover-letter-[slug]-[date].docx" \
-    --from markdown \
-    -V geometry:margin=0.75in \
-    -V fontsize=11pt
-fi
-```
+- Convert to PDF with same weasyprint command
 
 ### 6.4 Report
 List all generated files:
 ```
 Generated files:
-- Resume (markdown): docs/resume/draft-[slug]-[date].md
-- Resume (DOCX): docs/resume/[Name]-[TargetRole]-resume.docx
-- Cover letter (markdown): docs/resume/cover-letter-[slug]-[date].md  [if applicable]
-- Cover letter (DOCX): docs/resume/cover-letter-[slug]-[date].docx  [if applicable]
+- Resume (markdown draft): docs/resume/draft-[slug]-[date].md
+- Resume (HTML source):    docs/resume/resume-[slug].html
+- Resume (PDF):            docs/resume/[Name]-[TargetRole].pdf
+- Cover letter (HTML):     docs/resume/cover-letter-[slug]-[date].html  [if applicable]
+- Cover letter (PDF):      docs/resume/cover-letter-[slug]-[date].pdf   [if applicable]
 ```
 
 ### 6.5 Master Profile Update
@@ -499,7 +501,7 @@ Run this checklist before presenting the draft in Stage 4. Every item must pass.
 
 ### Locale Compliance
 - [ ] EN: No photo, no DOB, no marital status, experience before education
-- [ ] RU: Photo noted, DOB included, education before experience
+- [ ] RU: Photo included, education per master profile preference
 - [ ] Length within locale norms (EN: ~800 words / 2 pages; RU: ~1200 words / 3 pages)
 - [ ] Tone matches locale expectations
 

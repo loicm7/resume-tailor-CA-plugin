@@ -1,0 +1,181 @@
+<!--
+  RU Resume HTML Template for weasyprint → PDF conversion.
+  Slot markers: [CAPS_SNAKE_CASE] — replaced by skill during generation.
+
+  Design notes:
+  - A4, 14mm/16mm margins — fits 2-3 pages for CTO with 8-9 roles
+  - break-inside: avoid on .role and .condensed prevents page-split mid-role
+  - Skills grid: 135px category column + 8.5pt font to prevent wrapping with Russian text
+  - Keep category labels short (e.g. "Лидерство" not "Техническое лидерство")
+  - Font sizes: body 9.5pt, skills 8.5pt, condensed 8.5pt, tech 8pt
+  - Accent color: #2a5da8
+  - Photo: 90x90px, border-radius 6px, in flexbox header (RU convention)
+  - Photo file: photo.jpeg in same directory as HTML
+
+  Convert command:
+    cd docs/resume && DYLD_LIBRARY_PATH="$(brew --prefix)/lib" uv run weasyprint resume-[SLUG].html [NAME]-[TARGET_ROLE].pdf
+-->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>[FULL_NAME_RU] — [TARGET_ROLE] Резюме</title>
+<style>
+  @page {
+    size: A4;
+    margin: 14mm 16mm;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 9.5pt;
+    line-height: 1.35;
+    color: #1a1a1a;
+  }
+  a { color: #2a5da8; text-decoration: none; }
+
+  /* Header — flexbox with photo (RU convention) */
+  .header {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #2a5da8;
+  }
+  .header img {
+    width: 90px;
+    height: 90px;
+    border-radius: 6px;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+  .header-text { flex: 1; }
+  .header-text h1 { font-size: 20pt; font-weight: 700; color: #1a1a1a; margin-bottom: 1px; }
+  .header-text .subtitle { font-size: 11pt; color: #4a4a4a; margin-bottom: 5px; }
+  .header-text .contacts { font-size: 8.5pt; color: #555; line-height: 1.5; }
+  .header-text .contacts span { margin-right: 6px; }
+  .header-text .contacts .sep { color: #bbb; margin-right: 6px; }
+
+  /* Sections */
+  .section { margin-top: 10px; }
+  .section-title {
+    font-size: 10pt;
+    font-weight: 700;
+    color: #2a5da8;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid #d0d0d0;
+    padding-bottom: 2px;
+    margin-bottom: 6px;
+  }
+
+  /* Summary */
+  .summary { font-size: 9.5pt; line-height: 1.4; }
+
+  /* Skills grid — 135px + 8.5pt to prevent wrapping with Russian text */
+  .skills-grid { display: grid; grid-template-columns: 135px 1fr; row-gap: 2px; font-size: 8.5pt; }
+  .skill-cat { font-weight: 600; color: #333; }
+  .skill-list { color: #444; }
+
+  /* Full-detail roles — break-inside: avoid prevents page-split */
+  .role { margin-bottom: 8px; break-inside: avoid; }
+  .role-header { display: flex; justify-content: space-between; align-items: baseline; }
+  .role-company { font-weight: 700; font-size: 10pt; color: #1a1a1a; }
+  .role-dates { font-size: 8.5pt; color: #666; white-space: nowrap; }
+  .role-title { font-style: italic; font-size: 9pt; color: #444; margin-bottom: 2px; }
+  .role-scope { font-size: 9pt; color: #444; margin-bottom: 3px; }
+  .role ul { margin-left: 14px; font-size: 9pt; }
+  .role li { margin-bottom: 1px; }
+  .role-tech { font-size: 8pt; color: #666; margin-top: 2px; }
+
+  /* Condensed roles */
+  .condensed { margin-bottom: 6px; break-inside: avoid; }
+  .condensed .role-header { margin-bottom: 1px; }
+  .condensed .role-desc { font-size: 8.5pt; color: #444; margin-left: 0; }
+
+  /* Languages */
+  .languages { font-size: 9pt; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <img src="photo.jpeg" alt="[FULL_NAME]">
+  <div class="header-text">
+    <h1>[FULL_NAME_RU]</h1>
+    <div class="subtitle">[SUBTITLE]</div>
+    <div class="contacts">
+      <span>[LOCATION_RU]</span><span class="sep">|</span>
+      <span><a href="mailto:[EMAIL]">[EMAIL]</a></span><span class="sep">|</span>
+      <span><a href="[TELEGRAM_URL]">[TELEGRAM_DISPLAY]</a></span><br>
+      <span><a href="[LINKEDIN_URL]">[LINKEDIN_DISPLAY]</a></span><span class="sep">|</span>
+      <span><a href="[GITHUB_URL]">[GITHUB_DISPLAY]</a></span>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Краткое описание</div>
+  <div class="summary">
+    [EXECUTIVE_SUMMARY_RU]
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Ключевые навыки</div>
+  <div class="skills-grid">
+    <!-- 3-5 categories. Keep category labels SHORT to prevent wrapping (e.g. "Лидерство" not "Техническое лидерство"). -->
+    <div class="skill-cat">[CATEGORY_1_RU]</div>
+    <div class="skill-list">[SKILLS_1]</div>
+    <div class="skill-cat">[CATEGORY_2_RU]</div>
+    <div class="skill-list">[SKILLS_2]</div>
+    <div class="skill-cat">[CATEGORY_3_RU]</div>
+    <div class="skill-list">[SKILLS_3]</div>
+    <div class="skill-cat">[CATEGORY_4_RU]</div>
+    <div class="skill-list">[SKILLS_4]</div>
+    <div class="skill-cat">[CATEGORY_5_RU]</div>
+    <div class="skill-list">[SKILLS_5]</div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Опыт работы</div>
+
+  <!-- FULL-DETAIL ROLE (recent 3-4 roles for RU — more detail expected than EN) -->
+  <div class="role">
+    <div class="role-header">
+      <span class="role-company">[COMPANY] — [COMPANY_CONTEXT_RU]</span>
+      <span class="role-dates">[START] - [END_OR_НАСТ_ВРЕМЯ]</span>
+    </div>
+    <div class="role-title">[JOB_TITLE] · [LOCATION_RU]</div>
+    <div class="role-scope">[SCOPE_1_2_SENTENCES_RU]</div>
+    <ul>
+      <li>[ACHIEVEMENT_1_RU]</li>
+      <li>[ACHIEVEMENT_2_RU]</li>
+      <li>[ACHIEVEMENT_3_RU]</li>
+      <li>[ACHIEVEMENT_4_RU]</li>
+      <li>[ACHIEVEMENT_5_RU]</li>
+    </ul>
+    <div class="role-tech">[TECH_STACK_DOT_SEPARATED]</div>
+  </div>
+
+  <!-- CONDENSED ROLE (older roles) -->
+  <div class="condensed">
+    <div class="role-header">
+      <span class="role-company">[COMPANY] — [COMPANY_CONTEXT_RU]</span>
+      <span class="role-dates">[START] - [END]</span>
+    </div>
+    <div class="role-title">[JOB_TITLE] · [LOCATION_RU]</div>
+    <div class="role-desc">[1_2_SENTENCES_WITH_METRICS_RU]</div>
+  </div>
+
+</div>
+
+<div class="section">
+  <div class="section-title">Языки</div>
+  <div class="languages">[LANGUAGES_RU]</div>
+</div>
+
+</body>
+</html>
