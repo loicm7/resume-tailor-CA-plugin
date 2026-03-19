@@ -31,6 +31,7 @@ This skill asks **what the specific job needs** before touching your content.
 - **ATS scoring** — estimated match score with keyword coverage breakdown
 - **Locale support** — EN/US and RU/CIS conventions (section order, personal info, tone)
 - **Master profile** — stores your full career data, never loses context when narrowing
+- **Visibility system** — control which roles appear in which resume variants (`always`, `variant-specific`, `on-request`, `reference-only`); excluded roles are reported with reasons before tailoring
 - **Anti-pattern protection** — blocks generic openers, keyword stuffing, over-condensation
 - **Cover letter** — optional, also tailored to the specific role
 - **DOCX output** — ATS-friendly single-column document via pandoc
@@ -120,7 +121,7 @@ The skill will ask: "Using your master profile as the base. Correct?"
 ### What to Expect
 
 1. **Analysis phase** — skill parses your resume and JD, identifies matches and gaps
-2. **Feedback** — structured resume review: strengths for this role, issues to address, gap table showing every JD requirement and where it appears (or doesn't) in your resume
+2. **Feedback** — structured resume review: strengths for this role, issues to address, gap table showing every JD requirement and where it appears (or doesn't) in your resume, plus an excluded roles report if your master profile uses the visibility system
 3. **Questions** — 3-5 strategic questions (locale, positioning, emphasis)
 4. **Draft** — markdown resume with ATS analysis section showing:
    - Estimated ATS score (%)
@@ -208,6 +209,35 @@ If you want Claude Desktop to access local files (for reading resumes and writin
 
 2. Restart Claude Desktop
 3. Claude can now read/write files in the specified directory
+
+## Visibility System
+
+If you have multiple resume variants (e.g., different target industries), you can control which roles appear in each variant by adding a `Visibility` field to roles in your master profile:
+
+| Value | Meaning |
+|---|---|
+| `always` | Include in all resume variants |
+| `variant-specific` | Only in variants listed in the `Variants` field |
+| `on-request` | Skip unless explicitly requested |
+| `reference-only` | Metadata only, never included in output |
+
+Example in master profile:
+```markdown
+### Company A — Fintech Platform
+- **Visibility:** variant-specific
+- **Variants:** fintech, generic
+- **Title:** CTO
+...
+
+### Company B — Early Career Role
+- **Visibility:** on-request
+- **Title:** Software Engineer
+...
+```
+
+During the feedback stage, the skill shows an **Excluded Roles Report** — a table listing every role left out and why (variant mismatch, not requested, user constraint like "without fintech"). You can override any exclusion before tailoring begins.
+
+If your master profile has no `Visibility` fields, all roles are treated as `always` and the report is skipped.
 
 ## Locale Support
 

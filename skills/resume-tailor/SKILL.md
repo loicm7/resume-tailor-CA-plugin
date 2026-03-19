@@ -36,13 +36,40 @@ Master profile structure:
 # Master Profile
 ## Contact (name, email, phone, LinkedIn, location)
 ## Career Narrative (raw, unformatted — the full story)
-## Roles (each with: company context, title, dates, team size/structure, responsibilities, achievements with metrics, technologies, transition reason)
-## Education
+## Visibility Schema (enum definitions and known variants)
+## Roles (each with: Visibility, Variants, company context, title, dates, team size/structure, responsibilities, achievements with metrics, technologies)
+## Education (with Visibility)
 ## Certifications
 ## Skills Inventory (comprehensive, not pre-filtered)
 ## Languages
 ## Notes (gaps, side projects, consulting arrangements, etc.)
 ```
+
+### Visibility System
+
+The master profile may include a `Visibility` field on each role and section to control inclusion in generated resumes:
+
+| Value | Meaning | Behavior |
+|---|---|---|
+| `always` | Include in all resume variants | Always consider for inclusion |
+| `variant-specific` | Only in variants listed in `Variants` field | Include only if target variant matches or user explicitly requests |
+| `on-request` | Never include unless user explicitly asks | Skip by default |
+| `reference-only` | Alias/metadata, not content | Never include in any output |
+
+If the master profile has no `Visibility` fields, treat all roles as `always`.
+
+Variants are defined in the master profile's Visibility Schema section. Read them from there — do not hardcode.
+
+### Visibility Resolution Rules
+
+1. **Determine target variant.** Infer from user's request, JD domain, or ask if ambiguous. User may also specify constraints like "without variant X" — treat as explicit variant exclusion.
+2. **Filter roles:**
+   - `always` → include
+   - `variant-specific` → include only if target variant is in `Variants` list AND not explicitly excluded by user
+   - `on-request` → skip unless user explicitly names the role or asks for a full/comprehensive resume
+   - `reference-only` → never include
+3. **Education, Certifications, Languages** — respect their `Visibility` the same way.
+4. **User overrides win.** If user explicitly asks to include an `on-request` role — include it. If user excludes a variant — drop all roles where that variant is the only match.
 
 ---
 
@@ -163,8 +190,8 @@ Present a structured feedback report:
 - [Date overlaps, unexplained gaps, title inconsistencies — only if present]
 
 ### Recommendations
-- [Concrete suggestion 1 — e.g., "Your Deeplay role metrics (30% cost reduction) directly map to their 'cost optimization' requirement — should be prominent"]
-- [Concrete suggestion 2 — e.g., "Web3 experience at Pontem is a differentiator, not a distraction — reframe as 'distributed systems in adversarial environments'"]
+- [Concrete suggestion 1 — e.g., "Your Role B metrics (30% cost reduction) directly map to their 'cost optimization' requirement — should be prominent"]
+- [Concrete suggestion 2 — e.g., "Your blockchain experience at Role C is a differentiator, not a distraction — reframe as 'distributed systems in adversarial environments'"]
 ```
 
 ### Rules for Feedback
@@ -174,8 +201,30 @@ Present a structured feedback report:
 - **Distinguish structural issues from content issues.** Two-column layout is a structural issue (always fix). Missing a specific keyword is a content issue (fix for this JD only).
 - **Include the match/gap table.** This is the most actionable artifact — the user sees exactly what's covered and what's not.
 
+### Excluded Roles Report
+
+If the master profile uses the Visibility system, present a separate block after the main feedback listing every role and section excluded from this resume and why:
+
+```
+### Excluded from This Resume
+| Role / Section | Visibility | Reason Excluded |
+|---|---|---|
+| [Role name] | variant-specific | Variant "X" does not match target variant "Y" |
+| [Role name] | variant-specific | Variant "X" explicitly excluded by user |
+| [Role name] | on-request | Not explicitly requested |
+| [Section name] | on-request | Not explicitly requested |
+```
+
+Rules for this report:
+- List ALL excluded roles, not just some. The user must see the full picture.
+- State the exact reason: visibility value, variant mismatch, user exclusion, etc.
+- If a role is excluded because the user said "without X" — cite the user's constraint verbatim.
+- `always` roles are never listed here (they're always included).
+- `reference-only` entries are never listed here (they're metadata, not roles).
+- If the master profile has no Visibility fields, skip this report entirely.
+
 ### After Presenting Feedback
-Say: "This is my analysis of your resume against this specific JD. I'll use this to guide the tailoring. Now let me ask a few strategic questions before I start."
+Say: "This is my analysis of your resume against this specific JD. Above is the list of roles I'm excluding and why. If you want to include or exclude anything differently, let me know. Now let me ask a few strategic questions before I start."
 
 Then proceed to Stage 2.
 
