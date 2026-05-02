@@ -4,12 +4,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a **Claude Code plugin** (not a traditional software project) that provides a single skill: `resume-tailor`. It tailors resumes to specific job descriptions with ATS optimization. No build system, no tests, no dependencies — the project is entirely prompt-based markdown.
+This is a **Claude Code and Codex plugin** (not a traditional software project) that provides a single skill: `resume-tailor`. It tailors resumes to specific job descriptions with ATS optimization. No build system, no tests, no dependencies — the project is entirely prompt-based markdown.
 
 ## Architecture
 
 ```
-.claude-plugin/plugin.json    — Plugin manifest (name, version, metadata)
+.claude-plugin/plugin.json    — Claude Code plugin manifest (name, version, metadata)
+.codex-plugin/plugin.json     — Codex plugin manifest and marketplace metadata
+.agents/plugins/marketplace.json — Codex self-hosted marketplace index
 skills/resume-tailor/
   SKILL.md                    — Main skill definition (workflow, stages, rules)
   references/
@@ -42,5 +44,6 @@ DOCX generation requires `pandoc` installed on the user's system. The skill opti
 
 - Changes to `SKILL.md` affect the entire workflow — the stages are sequential and interdependent.
 - Reference files are self-contained domain knowledge; they can be updated independently.
-- `plugin.json` follows the Claude Code plugin manifest schema.
+- `.claude-plugin/plugin.json` follows the Claude Code plugin manifest schema.
+- `.codex-plugin/plugin.json` follows the Codex plugin manifest schema. Keep shared metadata in sync.
 - The plugin supports two locales (EN, RU). Changes to templates or conventions must be reflected in both locale files and `section-templates.md`.

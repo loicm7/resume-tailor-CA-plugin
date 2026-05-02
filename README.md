@@ -1,4 +1,4 @@
-# Resume Tailor — Claude Code Plugin
+# Resume Tailor — Claude Code and Codex Plugin
 
 ATS-optimized resume tailoring that replaces generic AI resume services. Instead of a one-size-fits-all rewrite, this skill tailors your resume **per job description** — matching keywords, adjusting emphasis, and structuring content for both human recruiters and ATS systems.
 
@@ -81,6 +81,15 @@ cp -r resume-tailor-plugin ~/.claude/plugins/resume-tailor-plugin
 ```
 
 After manual installation, restart Claude Code for the skill to be detected.
+
+### Codex marketplace
+
+This repository is also packaged for Codex:
+
+- `.codex-plugin/plugin.json` — Codex plugin manifest.
+- `.agents/plugins/marketplace.json` — self-hosted Codex marketplace index pointing at this plugin repository.
+
+Codex loads the bundled `resume-tailor` skill from `skills/`.
 
 ## Usage
 
@@ -278,6 +287,11 @@ Score = 0.4 × required_skills_coverage
 resume-tailor-plugin/
 ├── .claude-plugin/
 │   └── plugin.json                    # Plugin manifest
+├── .codex-plugin/
+│   └── plugin.json                    # Codex plugin manifest
+├── .agents/
+│   └── plugins/
+│       └── marketplace.json           # Codex marketplace index
 ├── skills/
 │   └── resume-tailor/
 │       ├── SKILL.md                   # Main orchestrator (stages, workflow, checklist)
@@ -287,6 +301,7 @@ resume-tailor-plugin/
 │           ├── locale-ru.md           # Russian/CIS conventions
 │           └── section-templates.md   # Section templates for both locales
 ├── LICENSE
+├── AGENTS.md
 └── README.md
 ```
 
