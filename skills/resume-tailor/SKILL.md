@@ -2,24 +2,29 @@
 name: resume-tailor
 description: |
   Tailors a resume to a specific job description with ATS optimization.
-  Use when asked to optimize a resume, tailor CV for a job, create an ATS-friendly resume,
-  generate a cover letter, or adapt career profile for a specific role.
+  Use when asked to optimize a resume, tailor a CV for a job (Canada, US,), create an ATS-friendly resume,
+  generate a cover letter, or adapt a career profile for a specific regional role.
   Triggers on: "resume", "CV", "tailor", "ATS", "job application", "cover letter",
-  "optimize resume", "adapt resume", "резюме", "вакансия".
+  "optimize resume", "adapt resume", "curriculum vitae", "bilingue", "optimise CV", "adapte CV", "lettre de motivation", "offre emploi", "резюме", "вакансия".
 user-invocable: true
 ---
 
 # Resume Tailor
 
-Multi-stage skill that transforms a resume into an ATS-optimized document tailored to a specific job description. Supports EN/US and RU/CIS locales. Replaces generic AI resume services with job-specific, strategic tailoring.
+Multi-stage skill that transforms a resume into an ATS-optimized document tailored to a specific job description. Supports Canadian English (EN-CA) and Canadian French (FR-CA), EN/US and RU/CIS locales. Replaces generic AI resume services with job-specific, strategic tailoring.
 
 ## Reference Files
 
 Read these files at the appropriate stage — they contain rules, conventions, and templates:
 - `references/ats-rules.md` — ATS formatting rules, keyword strategy, scoring formula, anti-patterns
+- `references/locale-en-ca.md` — Canadian English resume conventions
+- `references/locale-fr-ca.md` — Canadian French resume conventions
+- `references/section-templates-ca.md` — Section templates with slot markers for both Canadian locales
 - `references/locale-en.md` — English/US resume conventions
 - `references/locale-ru.md` — Russian/CIS resume conventions
-- `references/section-templates.md` — Section templates with slot markers for both locales
+- `references/section-templates.md` — Section templates with slot markers for English/US and Russian/CIS locales
+- `references/template-en-ca.html` — EN-CA HTML template for weasyprint PDF (no photo, centered header, 190px skills column grid, ellipsis or present ongoing date format)
+- `references/template-ca.html` — FR-CA HTML template for weasyprint PDF (no photo, centered header, 200px skills column grid, ellipsis or present ongoing date format)
 - `references/html-template-en.html` — EN HTML template for weasyprint PDF (no photo, centered header, 170px skills grid)
 - `references/html-template-ru.html` — RU HTML template for weasyprint PDF (photo, flexbox header, 135px/8.5pt skills grid)
 
@@ -240,6 +245,8 @@ Ask 3-5 questions via AskUserQuestion. Adapt based on what the analysis reveals.
 ```
 "Target locale for this resume?"
 Options:
+  - Canadian English (EN-CA: No photo, no DOB, city + province only, phone format XXX-XXX-XXXX, max 2 pages)
+  - Canadian French (FR-CA: No photo, no DOB, city + province only, phone format (XXX) XXX-XXXX, max 2 pages)
   - English/US (no photo, no DOB, experience before education, 1-2 pages)
   - Russian/CIS (photo, DOB, education before experience, 2-3 pages)
 ```
@@ -306,24 +313,51 @@ After all questions: compile a tailoring strategy document (internal, not saved)
 
 Read the appropriate reference files:
 - `references/ats-rules.md` (always)
-- `references/locale-en.md` OR `references/locale-ru.md` (based on Q1)
-- `references/section-templates.md` (always)
+- `references/locale-en-ca.md` OR `references/locale-fr-ca.md` OR `references/locale-en.md` OR `references/locale-ru.md` (based on Q1)
+- `references/section-templates-ca.md` OR `references/section-templates.md` (always, based on Q1)
 
-### 3.1 Executive Summary
+
+### 3.1 Profil Summary (use this section for Canada only)
+Write specifically for THIS role using the bulleted list layout from `section-templates-ca.md`[cite: 5].
+- Must be a bulleted list containing 4 to 8 distinct points (no block paragraphs).
+- Mention targeted Canadian role alignment, primary technical/business domain, 1-2 headline metrics, and forward-looking intent
+- Formatting: Normal 11pt text with no excessive bolding on whole bullets.
+- ANTI-PATTERN CHECK: Does it start with "Seasoned/Dynamic/Results-driven/Passionate"? If yes, REWRITE
+
+### 3.2 Executive Summary (use this section for others)
 Write specifically for THIS role using the template from section-templates.md.
 - Mention the target role title (or close variant)
 - Include 1-2 headline metrics from resume that match JD priorities
 - Forward-looking statement tied to the target company/role
 - ANTI-PATTERN CHECK: Does it start with "Seasoned/Dynamic/Results-driven"? If yes, REWRITE.
 
-### 3.2 Core Skills Section
+### 3.2 Technical Skills Section (use this section for Canada only)
+- Create 3-6 functional categories aligned with terms in the Job Description.
+- Each category must contain 4-6 skills, separated cleanly by pipes (`|`) or commas.
+- Remove skills irrelevant to this role (keep in master profile, not in tailored version)
+- Prioritize categories by JD relevance (most critical category first).
+- All key JD-required skills must appear here. Maintain complete technological consistency
+
+### 3.3 Core Skills Section (use this section for others)
 - Create 3-5 functional categories
 - Prioritize categories by JD relevance (most relevant first)
 - Each JD required skill must appear here
 - Remove skills irrelevant to this role (keep in master profile, not in tailored version)
 - Use pipe-delimited format within categories
 
-### 3.3 Professional Experience
+### 3.4 Work Experience (use this section for Canada only)
+- Always follow reverse-chronological order[cite: 1, 2].
+- **Recent roles (Past 10 years / 2-4 positions):** Full detail using the full-detail template
+  - Job title and dates on the top line; Employer name, City, and Province underneath.
+  - Active/Ongoing roles must use an ellipsis ("…") for the end date  or "Present".
+  - Focused 1-2 sentence overview defining the underlying scope or mandate
+  - 3-5 achievement bullets backed by quantified metrics using the Canadian Achievement Formula
+- **Older roles (Beyond 10 years):** Condensed using the condensed template
+  - Title and date on the same line, with the company on the line below
+  - 2-8 most relevant, metric-backed achievements only. Do not eliminate entirely
+- **Metrics:** Every single bullet must contain a context-driven quantified number
+
+### 3.5 Professional Experience (use this section for others)
 - **Recent 2-3 roles:** Full detail using the full-detail template
   - Company context line (what they do, size, domain)
   - Scope statement (team size, budget, mandate)
@@ -334,22 +368,26 @@ Write specifically for THIS role using the template from section-templates.md.
 - **Date overlaps:** Present as decided in Q4
 - **Metrics:** Every bullet must have a number. Tie each metric to business context.
 
-### 3.4 Keyword Integration
+### 3.6 Keyword Integration
 - For each JD required skill: ensure it appears in at least 2 places:
-  1. Core Skills section
-  2. An achievement bullet in Professional Experience
-- Use semantic variants (not exact repetition) across mentions
-- Cap at 3 appearances per keyword (no stuffing)
+  1. Technical Skills / Core Skills section
+  2. An achievement bullet in Work Experience / Professional Experience
+- Use semantic variants or localized tracks cleanly (maintain strict spelling Track consistency across terms)
+- Cap at 3 appearances per keyword (no keyword-stuffing anti-patterns).
 
-### 3.5 Education & Certifications
+### 3.7 Education & Certifications
+- Positioned strictly **after** the Work or Professional experience section (unless a recent graduate within 1-2 years).
+- Format: Credential earned (e.g., Bachelor of Science, Diploma of College Studies / DEC), institution, city/province, and graduation year
+- Guardrails: No GPA unless explicitly requested by public sector/academic paths. Strip high school if post-secondary is completed unless explicitly requested
 - Check master profile — education may be omitted per user preference
-- If included: apply locale-appropriate ordering (EN: after experience; RU: before experience)
+- If included: apply locale-appropriate ordering (FR-CA: after experience;EN-CA: after experience; EN: after experience; RU: before experience)
 - Certifications relevant to the role should be prominent
 
-### 3.6 Locale-Specific Adjustments
+### 3.8 Locale-Specific Adjustments
+- FR-CA and EN-CA: Strictly strip photo, DOB, age, gender, marital status, religion, SIN, or health parameters. Full name, clean telephone number, professional email, LinkedIn/GitHub URLs if available. Location must be City + Province only.
 - EN: Strip photo, DOB, marital status. City + state only. LinkedIn URL.
 - RU: Include photo placeholder note, DOB, full city. Languages section mandatory.
-- Length check: EN max 2 pages (~800 words), RU max 3 pages (~1200 words)
+- Length check: FR-CA and EN-CA max 2 pages (~790 words), EN max 2 pages (~800 words), RU max 3 pages (~1200 words)
 
 ---
 
@@ -426,13 +464,15 @@ Strip the ATS Analysis section (everything after the `<!-- ATS-ANALYSIS-START --
 **Step 1: Create styled HTML**
 
 Save to `docs/resume/resume-[slug].html`. Use the appropriate HTML template as a starting point:
+- EN-CA locale: `references/template-en-ca.html` (centered header, no photo, 190px skills grid, phone: XXX-XXX-XXXX, ellipsis or present ongoing date format)
+- FR-CA locale: `references/template-ca.html` (centered header, no photo, 200px skills grid, phone: (XXX) XXX-XXXX, ellipsis or present ongoing date format)
 - EN locale: `references/html-template-en.html` (centered header, no photo, 170px skills grid, 9pt skills)
 - RU locale: `references/html-template-ru.html` (flexbox header with photo, 135px skills grid, 8.5pt skills)
 
 Replace `[SLOT_MARKERS]` with actual content. Key design rules:
 - `break-inside: avoid` on `.role` and `.condensed` prevents page-split mid-role
-- RU skills: keep category labels short to prevent wrapping (e.g. "Лидерство" not "Техническое лидерство")
-- Photo: `docs/resume/photo.jpeg` (90x90px, border-radius 6px)
+- `break-inside: avoid` on job roles and education entries prevents page-split midway.
+- Maintain Arial or standard North American web-safe font stacks at uniform sizes (16pt for name, 12pt uppercase colored headings with 1pt black bottom border, 11pt normal body).
 
 **Step 2: Convert HTML to PDF**
 
@@ -445,9 +485,9 @@ System deps (`glib`, `pango`, `cairo`) are installed via brew.
 `DYLD_LIBRARY_PATH` is needed on macOS for weasyprint to find gobject.
 
 **Target page counts:**
+- EN-CA and FR-CA locale: Maximum of 2 pages for both locale. If a minor spillover occurs, tighten line-height, margins, and padding rules until it perfectly snaps into a crisp 2-page grid layout.
 - EN locale: 2 pages max
 - RU locale: 3 pages max
-- If 4th page has only languages section — tighten line-height, margins, font sizes until it fits
 
 ### 6.3 Cover Letter (if requested)
 Generate using the cover letter template from `references/section-templates.md`:
@@ -485,28 +525,32 @@ Run this checklist before presenting the draft in Stage 4. Every item must pass.
 
 ### Keyword Coverage
 - [ ] Every required JD skill appears in 2+ places (skills section + experience bullet)
-- [ ] No keyword appears more than 3 times total
+- [ ] No keyword appears more than 3 times total (no stuffing markers)
+- [ ] Targeted role title cleanly integrated into the Profile Summary
 - [ ] Job title from JD reflected in Executive Summary
-- [ ] Semantic variants used across mentions (not exact repetition)
 
 ### Content Quality
+- [ ] Profile Summary is a bulleted list of 4 to 8 points (not a paragraph block)
 - [ ] Executive Summary is specific to THIS role (not generic/templated)
-- [ ] Every achievement bullet contains a quantified metric
+- [ ] Every achievement bullet contains a quantified metric and starts with a strong action verb and includes a context-driven quantified metric
 - [ ] Metrics include business context (not floating numbers)
-- [ ] Recent 2-3 roles have full detail
 - [ ] Older roles are condensed but not eliminated
 - [ ] No unexplained gaps > 6 months (flagged to user)
 - [ ] Date overlaps explained per user's direction
 - [ ] Domain breadth preserved (not over-narrowed to JD domain)
 
 ### Locale Compliance
+- [ ] Absolutely NO photos, dates of birth, age, marital status, or SIN numbers
+- [ ] EN-CA and FR-CA: Location is strictly City, Province only
+- [ ] Phone layout matches track specification exactly (XXX-XXX-XXXX for EN-CA or (XXX) XXX-XXXX for FR-CA)
+- [ ] EN-CA and FR-CA: Education placed after work experience block
 - [ ] EN: No photo, no DOB, no marital status, experience before education
 - [ ] RU: Photo included, education per master profile preference
-- [ ] Length within locale norms (EN: ~800 words / 2 pages; RU: ~1200 words / 3 pages)
 - [ ] Tone matches locale expectations
+- [ ] Final output prints to standard North American US Letter dimensions and limits strictly to a 2-page ceiling
 
 ### Anti-Pattern Check
-- [ ] Executive Summary does NOT start with "Seasoned/Dynamic/Results-driven/Passionate"
+- [ ] Profile or Executive Summary does NOT start with "Seasoned/Dynamic/Results-driven/Passionate"
 - [ ] No "References available upon request"
 - [ ] No skill percentage/proficiency ratings
 - [ ] Early career NOT aggressively condensed to nothing

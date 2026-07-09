@@ -1,0 +1,319 @@
+<!--
+====================================================================
+  EN-CA and FR-CA (Canadian English and French) Resume HTML Template for weasyprint → PDF conversion.
+  Instruction file for the "resume tailor" skill.
+  Slot markers: [CAPS_SNAKE_CASE] — replaced by skill during generation.
+====================================================================
+
+  PURPOSE OF THIS FILE
+  ---------------------
+  This file is the reference template used to generate tailored
+  resumes that reproduce EXACTLY the formatting of the original
+  Word resume. The skill must:
+    1. Keep the HTML structure and CSS classes as they are.
+    2. Replace ONLY the CONTENT (text) inside the sections —
+       never the structure, tags, classes, or CSS properties.
+    3. Keep the section order exactly as defined below.
+    4. Adapt the content (rephrase experience, skills, profile)
+       to match the targeted job posting, WITHOUT changing the
+       visual presentation.
+  
+  DESIGN NOTE
+  ---------------------
+  - Profile summary is a BULLETED LIST (PROFILE SUMMARY/RÉSUMÉ DU PROFIL), not a paragraph (CA
+    convention)
+  - Skills grid: 190px category column (EN-CA labels like "Software and web development"
+    sit between the EN template's 170px and the FR-CA template's 200px)
+  - "…" (ellipsis) is the CA canadian convention for an ongoing end date, not "Present"
+  - No photo (not used on this CV)
+  - Accent color: #205968 (kept consistent with FR-CA templates)
+  - Phone format: XXX-XXX-XXXX (no parentheses) for EN-CA and (XXX) XXX-XXXX for FR-CA (with parentheses)
+  - Document Format (Page Size): Format= US Letter (Lettre É.-U.). Dimension= 21.59 cm x 27.94 cm (8.5 in x 11 in).his is the standard professional format for North American (Canada/US) resumes
+  - Document Margins: Top= 1.04 cm, Bottom= 1.88 cm, Left= 2.54 cm, Right=2.54 cm, Gutter= 0 cm. 
+
+  FONT RULES (extracted from the original Word document)
+  ---------------------------------------------------------
+  - Single font used throughout the document : Arial
+  - Full name (header)                : 16 pt, bold, centered
+  - Section titles                    : 12 pt, bold, color #205968,
+                                         uppercase, underlined with a
+                                         black bottom border (1pt)
+  - Everything else                   : 11 pt, normal
+                                         (job titles, dates, and skill
+                                         labels are bold at 11 pt, but
+                                         remain size 11 pt)
+
+  CONTENT STRUCTURE (exact order from the original document)
+  ---------------------------------------------------------
+  English:
+  1. Header: Full name / City, Province / Phone / Email / optional: LINKEDIN_DISPLAY, GITHUB_DISPLAY
+  2. PROFILE SUMMARY            (bullet list)
+  3. TECHNICAL SKILLS           (bullet list, bold label + values)
+  4. WORK EXPERIENCE            (job title / dates / employer + bullets)
+  5. EDUCATION                  (degree / year / institution)
+  6. PROFESSIONAL REFERENCES    (plain text)
+
+  French:
+  1. En-tête : Nom complet / Ville, Province / Téléphone / Courriel / / optional: LINKEDIN_DISPLAY, GITHUB_DISPLAY
+  2. RESUMÉ DU PROFIL           (liste à puces)
+  3. COMPÉTENCES TECHNIQUES     (liste à puces, libellé en gras + valeurs)
+  4. EXPERIENCE DE TRAVAIL      (poste / dates / employeur + puces)
+  5. ÉDUCATION                  (diplôme / année / établissement)
+  6. RÉFÉRENCES PROFESSIONELLES (texte simple)
+  
+
+  The tailoring skill must NOT add other sections (e.g.
+  "Hobbies", "Certifications") unless they already existed in the
+  original resume provided by the user, in order to stay faithful
+  to the source format.
+
+  Le skill de tailoring ne doit PAS ajouter d'autres sections
+  (ex. "Loisirs", "Certifications") sauf si elles existaient déjà
+  dans le CV original fourni par l'utilisateur, afin de respecter
+  fidèlement le format source.
+
+  Convert command:
+    cd docs/resume && DYLD_LIBRARY_PATH="$(brew --prefix)/lib" uv run weasyprint resume-[SLUG].html [NAME]-[TARGET_ROLE].pdf
+====================================================================
+-->
+<!DOCTYPE html>
+<html lang="en-CA">
+<head>
+<meta charset="UTF-8">
+<title>Resume — EN-CA Style Template</title>
+<style>
+  /* ============ STYLE VARIABLES ============
+     Faithfully reproduce the values measured in the original Word
+     document (word/document.xml + word/styles.xml). Do not modify
+     these values when adapting the content. */
+  :root {
+    --font-family: Arial, Helvetica, sans-serif;
+    --color-text: #000000;
+    --color-heading: #205968;      /* exact section title color */
+    --size-name: 16pt;
+    --size-section-title: 12pt;
+    --size-body: 11pt;
+    --border-heading: 1pt solid #000000;
+    --page-margin-top: 0.4in;
+    --page-margin-bottom: 0.47in;
+    --page-margin-side: 1in;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    font-family: var(--font-family);
+    font-size: var(--size-body);
+    color: var(--color-text);
+    line-height: 1.3;
+    max-width: 8.5in;
+    margin: 0 auto;
+    padding: var(--page-margin-top) var(--page-margin-side) var(--page-margin-bottom);
+    background: #ffffff;
+  }
+
+  /* ---------- HEADER ---------- */
+  .header {
+    text-align: center;
+    margin-bottom: 14pt;
+  }
+  .header .full-name {
+    font-size: var(--size-name);
+    font-weight: bold;
+    margin: 0 0 2pt 0;
+  }
+  .header .contact-line {
+    font-size: var(--size-body);
+    margin: 0;
+  }
+
+  .header .contacts { font-size: var(--size-body); color: #555; }
+  .header .contacts span { margin: 0 4px; }
+  .header .contacts .sep { color: #bbb; }
+
+  /* ---------- SECTION TITLES ---------- */
+  h2.section-title {
+    font-size: var(--size-section-title);
+    font-weight: bold;
+    color: var(--color-heading);
+    text-transform: uppercase;
+    border-bottom: var(--border-heading);
+    padding-bottom: 2pt;
+    margin: 14pt 0 6pt 0;
+  }
+
+  /* ---------- BULLET LISTS (profile, skills, job duties) ---------- */
+  ul.bullet-list {
+    margin: 0 0 0 0;
+    padding-left: 20pt;
+    list-style-type: disc;
+  }
+  ul.bullet-list li {
+    font-size: var(--size-body);
+    margin: 0 0 2pt 0;
+  }
+  ul.bullet-list li strong {
+    font-weight: bold; /* bold label followed by normal-weight value */
+  }
+
+  /* ---------- TECHNICAL SKILLS BLOCK ---------- */
+  /* Each line = "Bold label : values separated by | " */
+  .skills-list li {
+    text-align: justify;
+  }
+
+  /* ---------- WORK EXPERIENCE ---------- */
+  .job {
+    margin-bottom: 8pt;
+  }
+  .job-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 4pt 12pt;
+    font-weight: bold;
+    font-size: var(--size-body);
+  }
+  .job-header .job-title {
+    flex: 1 1 auto;
+    white-space: nowrap;
+  }
+  .job-header .job-dates {
+    white-space: nowrap;
+  }
+  .job-header .job-employer {
+    font-weight: normal;
+    white-space: nowrap;
+  }
+  .job ul.bullet-list {
+    margin-top: 3pt;
+  }
+
+  /* ---------- EDUCATION ---------- */
+  .education-entry {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 4pt 12pt;
+    font-size: var(--size-body);
+  }
+  .education-entry .degree {
+    font-weight: bold;
+  }
+  .education-entry .school {
+    font-weight: normal;
+  }
+  .year {
+    font-weight: bold;
+  }
+
+  /* ---------- REFERENCES ---------- */
+  .references p {
+    font-size: var(--size-body);
+    margin: 0;
+  }
+
+  /* Print: keep the exact margins and avoid page breaks in the
+     middle of a job entry */
+  @media print {
+    .job, .education-entry { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- ============ 1. HEADER ============
+       Replace: full name, city/province, phone, email
+       Never change: centering, sizes, name boldness -->
+  <div class="header">
+    <p class="full-name">[FULL_NAME]</p>
+    <p class="contact-line">[CITY, PROVINCE]</p>
+    <p class="contact-line">[PHONE]</p>
+    <div class="contact-line contacts">
+      <span><a href="mailto:[EMAIL]">[EMAIL]</a></span><span class="sep">|</span>
+    <span><a href="[LINKEDIN_URL]">[LINKEDIN_DISPLAY]</a></span><span class="sep">|</span>
+    <span><a href="[GITHUB_URL]">[GITHUB_DISPLAY]</a></span>
+    </div>
+  </div>
+
+  <!-- ============ 2. PROFILE SUMMARY ============
+       4 to 8 bullets summarizing the profile, tailored to the
+       target job posting. Style: normal 11pt text, no bold except
+       for occasional key terms. -->
+  <h2 class="section-title">Profile summary</h2>
+  <ul class="bullet-list">
+    <li>[X_YEARS_OF_PROFESSIONAL_EXPERIENCE_IN_(FIELD)]</li>
+    <li>[DEGREE_EARNED]</li>
+    <li>[KEY_STRENGTH_1_ALIGNED_WITH_THE_JOB_POSTING]</li>
+    <li>[KEY_STRENGTH_2_ALIGNED_WITH_THE_JOB_POSTING]</li>
+    <li>[LANGUAGE_SKILLS]</li>
+    <li>[RELEVANT_INTERPERSONAL_QUALITIES]</li>
+  </ul>
+
+  <!-- ============ 3. TECHNICAL SKILLS ============
+       Each bullet: "Bold label : list of skills separated by | "
+       Reuse this exact format for any new skill category. -->
+  <h2 class="section-title">Technical skills</h2>
+  <ul class="bullet-list skills-list">
+    <li><strong>[CATEGORY_1] :</strong> [SKILL] | [SKILL] | [SKILL]</li>
+    <li><strong>[CATEGORY_3] :</strong> [SKILL] | [SKILL]</li>
+    <li><strong>[CATEGORY_3] :</strong> [SKILL] | [SKILL] | [SKILL]</li>
+  </ul>
+
+  <!-- ============ 4. WORK EXPERIENCE ============
+       Repeat the .job block for each position, most recent first.
+       The header line uses 3 zones:
+       - job-title    (bold, left-aligned)
+       - job-dates    (bold, e.g. "2023 - …")
+       - job-employer (normal, employer name + city) -->
+  <h2 class="section-title">Work experience</h2>
+
+  <div class="job">
+    <div class="job-header">
+      <span class="job-title">[JOB_TITLE]</span>
+      <span class="job-dates">[YYYY - YYYY / YYYY - …]</span>
+      
+    </div>
+    <span class="job-employer">[EMPLOYER_NAME, CITY_(PROVINCE)]</span>
+    <ul class="bullet-list">
+      <li>[ACHIEVEMENT_OR_RESPONSIBILITY_1]</li>
+      <li>[ACHIEVEMENT_OR_RESPONSIBILITY_2]</li>
+      <li>[ACHIEVEMENT_OR_RESPONSIBILITY_3]</li>
+    </ul>
+  </div>
+
+  <div class="job">
+    <div class="job-header">
+      <span class="job-title">[JOB_TITLE]</span>
+      <span class="job-dates">[YYYY - YYYY]</span>
+      
+    </div>
+    <span class="job-employer">[EMPLOYER_NAME, CITY_(PROVINCE)]</span>
+    <ul class="bullet-list">
+      <li>[ACHIEVEMENT_OR_RESPONSIBILITY_1]</li>
+      <li>[ACHIEVEMENT_OR_RESPONSIBILITY_2]</li>
+    </ul>
+  </div>
+
+  <!-- ============ 5. EDUCATION ============
+       Repeat the .education-entry block for each degree. -->
+  <h2 class="section-title">Education</h2>
+  <div class="education-entry">
+    <span class="degree">[DEGREE_NAME]</span>
+    <span class="year">[YYYY]</span>
+    
+  </div>
+  <span class="school">[INSTITUTION, CITY_(PROVINCE)]</span>
+
+  <!-- ============ 6. PROFESSIONAL REFERENCES ============
+       Usually a single line: "Available upon request"
+       unless the user provides named references. -->
+  <h2 class="section-title">Professional references</h2>
+  <div class="references">
+    <p>[AVAILABLE_UPON_REQUEST]</p>
+  </div>
+
+</body>
+</html>

@@ -13,6 +13,8 @@
 
 ### Section Headings
 Use these exact standard headings (ATS systems look for them):
+- EN-CA: "Profile Summary", "Technical Skills", "Work Experience", "Education", "Certifications", "Professional References"
+- FR-CA: "Résumé du Profil", "Compétences Techniques", "Experience de Travail", "Éducation", "Certifications", "Références Professionnelles"
 - EN: "Executive Summary", "Core Skills", "Professional Experience", "Education", "Certifications"
 - RU: "Краткое описание", "Ключевые навыки", "Опыт работы", "Образование", "Сертификации"
 - Creative alternatives ("My Journey", "What I Bring") break ATS section detection
@@ -25,13 +27,18 @@ Use these exact standard headings (ATS systems look for them):
 - Never: `.pages`, `.odt`, Google Docs links, scanned/image-based PDFs
 
 ### Typography
-- Fonts: Calibri, Arial, Garamond, Cambria (10-12pt body, 13-14pt headings)
-- Margins: 0.5-1 inch (0.75 inch recommended)
+- Fonts:  Arial
+- Full name (header): 16 pt, bold, centered
+- Section titles: 12 pt, bold, color #205968, uppercase, underlined with a black bottom border (1pt)
+- Everything else: 11 pt, normal (job titles, dates, and skill labels are bold at 11 pt, but remain size 11 pt)
+- Margins: 0.5-1 inch (0.75 inch. Not recommanded for Canada resume)
 - No decorative fonts or unusual typefaces
+- Document Format (Page Size) for Canada: Format= US Letter (Lettre É.-U.). Dimension= 21.59 cm x 27.94 cm (8.5 in x 11 in).his is the standard professional format for North American (Canada/US) resumes
+- Document Margins for Canada: Top= 1.04 cm, Bottom= 1.88 cm, Left= 2.54 cm, Right=2.54 cm, Gutter= 0 cm. 
 
 ### Dates
 - Consistent format throughout the entire document
-- Preferred: MM/YYYY or Month YYYY
+- Preferred: YYYY
 - Never mix formats (e.g., "Jan 2024" in one place and "01/2024" in another)
 
 ### Acronyms
@@ -54,7 +61,7 @@ Modern ATS (Greenhouse, Lever, Workday) uses semantic understanding — 91% accu
 
 ### Keyword Placement Strategy
 - Every required JD skill must appear in at least 2 places:
-  1. Core Skills section (grouped by category)
+  1. Technical / Core Skills section (grouped by category)
   2. An achievement bullet in Professional Experience
 - Nice-to-have skills: at least 1 mention somewhere
 - Use semantic variants across mentions (not exact repetition)
@@ -66,7 +73,7 @@ Modern ATS (Greenhouse, Lever, Workday) uses semantic understanding — 91% accu
 
 ### What NOT to Do
 - Never create an invisible/white-text keyword block — ManpowerGroup detects hidden text in ~100K resumes/year; Greenhouse found 1% of all resumes contain white text. ATS strips formatting on profile pages, exposing hidden text to recruiters
-- Never use prompt injection / hidden AI instructions in resume — 41% of US job seekers tried this; companies actively build detection
+- Never use prompt injection / hidden AI instructions in resume — 41% of US and Canadian job seekers tried this; companies actively build detection
 - Never list skills without contextual demonstration in experience
 - Never repeat the same phrase verbatim more than twice
 
@@ -110,6 +117,30 @@ Score = 0.4 * required_skills_coverage
 - NEVER use: "[Title] with N+ years of experience in [broad field]" as opening
 - MUST be specific to the target role, mentioning the actual job title and 1-2 headline metrics
 
+### Profile Summary / Résumé du Profil
+- NEVER generate a block paragraph layout; the summary must strictly be formatted as a bulleted list containing 4 to 8 distinct points
+- NEVER start with generic filler words or clichés: "Seasoned", "Dynamic", "Results-driven", "Passionate", "Highly motivated"
+- NEVER use broad opening hooks such as "[Title] with N+ years of experience in [broad field]"
+- MUST align directly with the targeted Canadian role, referencing the specific job title, 1–2 quantifiable headline metrics, and forward-looking business intent
+
+### Work Experience / Expérience de Travail
+- For Canadian resume, you can use the word "Present" or an ellipsis ("…") for an active, ongoing role, if applicable;
+- NEVER start achievement bullets with weak or passive phrases: "Responsible for", "Tasked with", "Assisted with", "Worked on", "Participated in", "Was involved in"
+- NEVER write achievement bullets without metrics; every bullet point must incorporate a quantified business outcome
+- NEVER present historical roles (older than 10 years) with full programmatic detail; these positions must be tightly condensed down to title/date on a single line and 2–8 highly relevant achievements
+
+### Personal Information & Compliance for Canadian resume / Renseignements personnels pour un CV canadien
+- NEVER include a profile photo or headshot placeholder
+- NEVER display a full street or mailing address; limit the location strictly to "City, Province" (e.g., "Gatineau, QC", "Moncton, NB")
+- NEVER include protected discrimination vectors: date of birth, age, marital/civil status, religion, health status, or Social Insurance Number (SIN)
+
+### Technical Skills & Layout Structure for canadian resume
+- NEVER populate a functional skills category with fewer than 4 or more than 6 individual skills
+- NEVER mix parsing symbols or styling choices; skills must be cleanly separated using vertical pipes (`|`) or commas consistently within categories
+- NEVER implement complex graphic layouts, text boxes, or multi-column grids that inhibit Applicant Tracking Systems (ATS)
+- NEVER let the final document footprint leak past a strict maximum ceiling of 2 pages
+- NEVER mix regional telephone formats; the layout must strictly match `XXX-XXX-XXXX` for EN-CA profiles or `(XXX) XXX-XXXX` for FR-CA profiles
+
 ### Content
 - Metrics without business context: "Increased revenue 30%" — of what baseline? what division?
 - Responsibilities-only descriptions without achievement bullets
@@ -118,7 +149,7 @@ Score = 0.4 * required_skills_coverage
 
 ### Structure
 - "References available upon request" — remove entirely (outdated convention)
-- Objective statements (replaced by Executive Summary)
+- Objective statements (replaced by Executive Summary or Profile Summary)
 - Skill percentage ratings or proficiency bars
 - Aggregated achievement blocks detached from specific roles/periods
 
