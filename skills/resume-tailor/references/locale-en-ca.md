@@ -21,11 +21,11 @@
 ## Length
 - < 10 years experience: 2 pages (2 pages is highly accepted in Canada)
 - 10+ years / senior / executive: 2 pages maximum
-- Estimated ~700 words per page with standard formatting[cite: 1]
+- Estimated ~800 words per page with standard formatting
 
 ## Profil Summary
 - 4 to 8 bullets summarizing the profile, tailored to the target job posting. Style: normal 11pt text, no bold.
-- Must mention: targeted Canadian role alignment, primary technical or business domain, 1-2 headline metrics, and forward-looking intent
+- Must mention: targeted Canadian role alignment, primary technical or business domain.
 
 ## Experience Section
 - Reverse chronological (most recent first)

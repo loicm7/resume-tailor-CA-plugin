@@ -146,6 +146,9 @@ If I ask you to "write my resume.", use **Constraint-Based Prompting** to sound 
 
 ---
 
+## Design and Layout
+Use `references/template-en-ca.html` or `references/template-ca.html` based on EN-CA and FR-CA as a layout and style model for the final output Word DOCX file you will create. I want the Word document layout and style you create looks exactly like those html files or the Word document I attached. Do not reduce font size keep the same size and if your text does not fit the 2 pages max, reformulate or make try to make short text.
+
 ## Workflow
 
 ```

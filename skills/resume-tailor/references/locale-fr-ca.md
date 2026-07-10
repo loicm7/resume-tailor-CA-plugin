@@ -25,7 +25,7 @@
 
 ## Sommaire professionnel
 - 4 à 8 puces résumant le profil, adaptées de manière précise à l'offre d'emploi visée. Style : texte normal de 11 pt, pas de gras.
-- Doit mentionner : l'alignement avec le poste canadien ciblé, le domaine technique ou d'affaires principal, 1 ou 2 indicateurs clés de performance (mesures phares) et les perspectives professionnelles futures (objectifs).
+- Doit mentionner : l'alignement avec le poste canadien ciblé, le domaine technique ou d'affaires principal.
 
 ## Section Expérience
 - Ordre chronologique inversé (le poste le plus récent en premier)
