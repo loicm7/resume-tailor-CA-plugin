@@ -23,7 +23,7 @@
 - 10 ans et plus / niveau senior / cadre : 2 pages maximum
 - Estimation d'environ 700 mots par page avec une mise en forme standard
 
-## Sommaire professionnel
+## Sommaire professionnel / Résumé du profil (liste à puces)
 - 4 à 8 puces résumant le profil, adaptées de manière précise à l'offre d'emploi visée. Style : texte normal de 11 pt, pas de gras.
 - Doit mentionner : l'alignement avec le poste canadien ciblé, le domaine technique ou d'affaires principal.
 

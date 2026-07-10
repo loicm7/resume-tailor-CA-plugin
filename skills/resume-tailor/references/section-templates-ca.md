@@ -11,7 +11,6 @@ Slot markers use `[CAPS_SNAKE_CASE]` for values the skill fills in. These templa
 * [YEARS_OF_EXPERIENCE] years of professional experience in [FIELD/DOMAIN] accelerating [BUSINESS_CONTEXT]
 * [DEGREE_EARNED] in [FIELD_OF_STUDY]
 * Proven expertise in [KEY_STRENGTH_1] and [KEY_STRENGTH_2] aligned with target requirements
-* Track record of [HEADLINE_ACHIEVEMENT_WITH_METRIC]
 * Professional proficiency in both English and French (Bilingual)
 * [RELEVANT_INTERPERSONAL_QUALITIES/FORWARD_LOOKING_INTENT]
 ```
@@ -20,10 +19,9 @@ Example:
 ```markdown
 * 5+ years of professional experience in full-stack software engineering and web application development
 * Bachelor’s degree  in Computer Science
-* Proven expertise in .NET Core, C#, Clean Architecture, and modern front-end frameworks like React
+* Expertise in .NET Core, C#, Clean Architecture, and modern front-end frameworks like React
 * Track record of migrating 20+ legacy interactive training modules to modern HTML5/JavaScript standards
-* Professional proficiency in both English and French (Bilingual)
-* Results-driven collaborator adept at automating internal business processes and delivering scalable code
+* Language skills: bilingual in French and English
 ```
 
 ### FR-CA Template
@@ -31,9 +29,8 @@ Example:
 * [NOMBRE] ans d'expérience professionnelle en [DOMAINE] visant à optimiser [CONTEXTE]
 * [DIPLÔME_OBTENU] en [CHAMP_D_ÉTUDES]
 * Expertise approfondie en [COMPÉTENCE_CLÉ_1] et [COMPÉTENCE_CLÉ_2] alignées avec le poste visé
-* Fait saillant : [RÉALISATION_PHARE_AVEC_MESURE_QUANTIFIABLE]
-* Maîtrise professionnelle de l'anglais et du français (Bilingue)
-* [QUALITÉ_INTERPERSONNELLE / OBJECTIF_PROFESSIONNEL_FUTUR]
+* Connaissances linguistiques: bilingue français et anglais
+* [QUALITÉ_INTERPERSONNELLE/OBJECTIF_PROFESSIONNEL_FUTUR]
 ```
 
 Example:
