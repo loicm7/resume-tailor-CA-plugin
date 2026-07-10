@@ -1,0 +1,15 @@
+{
+  "name": "resume-tailor-ca-marketplace",
+  "owner": {
+    "name": "Loick Mboutou",
+    "github": "https://github.com/loicm7"
+  },
+  "plugins": [
+    {
+      "name": "resume-tailor-ca",
+      "source": "./",
+      "description": "ATS-optimized resume tailoring for Canadian (EN-CA/FR-CA) job applications.",
+      "version": "1.0.0"
+    }
+  ]
+}
