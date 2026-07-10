@@ -1,11 +1,11 @@
 {
-  "name": "resume-tailor",
+  "name": "resume-tailor-ca",
   "interface": {
-    "displayName": "Resume Tailor"
+    "displayName": "Resume Tailor CA"
   },
   "plugins": [
     {
-      "name": "resume-tailor",
+      "name": "resume-tailor-ca",
       "source": {
         "source": "local",
         "path": "./"

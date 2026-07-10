@@ -29,7 +29,7 @@ This skill asks **what the specific job needs** before touching your content.
 - **Job-description-driven** — every tailoring decision is based on the target JD
 - **Resume feedback** — structured analysis with strengths, issues, and gap table before tailoring
 - **ATS scoring** — estimated match score with keyword coverage breakdown
-- **Locale support** — EN/US and RU/CIS conventions (section order, personal info, tone)
+- **Locale support** — FR/CA, EN/CA, EN/US and RU/CIS conventions (section order, personal info, tone)
 - **Master profile** — stores your full career data, never loses context when narrowing
 - **Visibility system** — control which roles appear in which resume variants (`always`, `variant-specific`, `on-request`, `reference-only`); excluded roles are reported with reasons before tailoring
 - **Anti-pattern protection** — blocks generic openers, keyword stuffing, over-condensation
@@ -52,20 +52,20 @@ pandoc --version
 
 ```bash
 # Add the marketplace (first time only)
-claude /plugin marketplace add olegvg/resume-tailor-plugin
+claude /plugin marketplace add loicm7/resume-tailor-CA-plugin
 
 # Install the plugin
-claude /plugin install resume-tailor
+claude /plugin install resume-tailor-ca
 ```
 
 ### Option 2: Clone and Install Locally
 
 ```bash
 # Clone the repository
-git clone https://github.com/olegvg/resume-tailor-plugin.git
+git clone https://github.com/loicm7/resume-tailor-CA-plugin.git
 
 # Install from local path
-claude /plugin install --path ./resume-tailor-plugin
+claude /plugin install --path ./resume-tailor-CA-plugin
 ```
 
 ### Option 3: Manual Installation
@@ -74,10 +74,10 @@ Copy the plugin into your Claude Code plugins directory:
 
 ```bash
 # Clone
-git clone https://github.com/olegvg/resume-tailor-plugin.git
+git clone https://github.com/loicm7/resume-tailor-CA-plugin.git
 
 # Copy to Claude Code plugins directory
-cp -r resume-tailor-plugin ~/.claude/plugins/resume-tailor-plugin
+cp -r resume-tailor-CA-plugin ~/.claude/plugins/resume-tailor-CA-plugin
 ```
 
 After manual installation, restart Claude Code for the skill to be detected.
@@ -171,8 +171,11 @@ Claude Desktop does not support plugins directly, but you can use this skill thr
 4. Paste the full content of `skills/resume-tailor/SKILL.md` into the instructions field
 5. Upload the reference files as project knowledge:
    - `skills/resume-tailor/references/ats-rules.md`
+   - `skills/resume-tailor/references/locale-en-ca.md`
+   - `skills/resume-tailor/references/locale-fr-ca.md`
    - `skills/resume-tailor/references/locale-en.md`
    - `skills/resume-tailor/references/locale-ru.md`
+   - `skills/resume-tailor/references/section-templates-ca.md`
    - `skills/resume-tailor/references/section-templates.md`
 
 ### Usage in Claude Desktop
@@ -284,8 +287,9 @@ Score = 0.4 × required_skills_coverage
 ## Project Structure
 
 ```
-resume-tailor-plugin/
+resume-tailor-CA-plugin/
 ├── .claude-plugin/
+│   ├── marketplace.json               # Claude marketplace index
 │   └── plugin.json                    # Plugin manifest
 ├── .codex-plugin/
 │   └── plugin.json                    # Codex plugin manifest
@@ -297,9 +301,11 @@ resume-tailor-plugin/
 │       ├── SKILL.md                   # Main orchestrator (stages, workflow, checklist)
 │       └── references/
 │           ├── ats-rules.md           # ATS formatting rules & scoring
+│           ├── locale-en-ca.md        # English/Canada conventions
+│           ├── locale-fr-ca.md        # French/Canada conventions
 │           ├── locale-en.md           # English/US conventions
 │           ├── locale-ru.md           # Russian/CIS conventions
-│           └── section-templates.md   # Section templates for both locales
+│           └── section-templates.md   # Section templates for English/US and Russian/CIS locales
 ├── LICENSE
 ├── AGENTS.md
 └── README.md

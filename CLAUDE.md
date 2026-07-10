@@ -16,9 +16,12 @@ skills/resume-tailor/
   SKILL.md                    — Main skill definition (workflow, stages, rules)
   references/
     ats-rules.md              — ATS formatting rules, keyword strategy, scoring formula
+    locale-en-ca.md           — English/CA Canada resume conventions
+    locale-fr-ca.md           — French/CA Canada resume conventions
     locale-en.md              — English/US resume conventions
     locale-ru.md              — Russian/CIS resume conventions
-    section-templates.md      — Section templates with slot markers for both locales
+    section-templates.md      — Section templates with slot markers for both English/US locale and Russian/CIS locale
+    section-templates.md      — Section templates with slot markers for English/CA Canada locale and French/CA Canada locale
 ```
 
 - `SKILL.md` is the orchestrator — it defines a 7-stage workflow (Stages 0-6) and references the files in `references/` at specific stages.
