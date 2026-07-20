@@ -146,8 +146,86 @@ If I ask you to "write my resume.", use **Constraint-Based Prompting** to sound 
 
 ---
 
+## Anti-AI-Detection Resume Writing
+
+LLM-generated resumes are recognizable by structural patterns, not by vocabulary alone.
+This skill defines hard rules to break those patterns.
+
+### The core problem
+
+LLMs default to one repeating sentence template:
+
+> [Past-participle verb] + [object], + [gerund clause: en/by + verb-ing] + [soft-skill payoff]
+
+Example of the pattern to AVOID:
+> "Créé et mis à jour plusieurs sites Web, en validant les besoins des clients et en livrant des solutions faciles à utiliser."
+
+When every bullet on a page follows this exact shape, it reads as machine-generated
+regardless of how accurate the content is.
+
+### Hard rules
+
+1. **No more than 2 consecutive bullets may use the same syntactic opening.**
+   Vary between: past-participle verb, noun phrase, number-led ("Plus de X..."),
+   or short direct statement. Do not let "en + gérondif" appear in every bullet
+   of a job block.
+
+2. **Vary sentence length deliberately.**
+   Mix short bullets (6-10 words) with longer ones (20-25 words). Uniform
+   15-18 word bullets across an entire CV is itself a detection signal —
+   fix this even if each individual bullet reads fine.
+
+3. **Cut the "soft-skill payoff" clause from at least half the bullets.**
+   Not every accomplishment needs a trailing "renforçant..." / "démontrant..." /
+   "ce qui a permis..." clause. Real resumes state a result and stop.
+   Bad: "Corrigé des bogues, renforçant une approche méthodique."
+   Better: "Corrigé des bogues avant la mise en ligne de 5+ sites clients."
+
+4. **Ban generic HR-buzzword clusters** unless the source material actually
+   used that language. Flag and rewrite:
+   - "aisance technologique"
+   - "vulgarisation technique"
+   - "profil fiable, patient et organisé"
+   - "gestion de la pression"
+   - "approche méthodique"
+   - "environnement où la qualité compte"
+   These are statistically over-represented in LLM output vs. human-written CVs.
+
+5. **Prefer concrete numbers/artifacts over adjectives.**
+   Replace vague qualifiers ("plusieurs", "de façon structurée", "avec attention
+   particulière") with a specific number, tool name, or outcome whenever the
+   source material contains one. If no specific number exists, ask the user
+   for it instead of inventing a qualifier.
+
+6. **Let job blocks differ in tone, not just content.**
+   A customer-service role and a developer role should not read with identical
+   rhythm and vocabulary density. Adjust phrasing register per role type.
+
+7. **Do not force every past job to bridge toward the target job.**
+   One or two bullets can connect to the target role's needs. Do not retrofit
+   the entire work history into a smooth narrative arc toward the posting —
+   that over-tailored coherence is itself a tell.
+
+8. **Read the full CV aloud (silently) as a final pass.**
+   If it sounds like a press release — polished, no friction, no idiosyncratic
+   phrasing — rewrite at least 30% of bullets to reintroduce natural
+   unevenness before finalizing.
+
+### Self-check before output
+
+Before returning the final CV text, verify:
+- [ ] No single sentence template repeats more than twice in a row
+- [ ] Sentence lengths vary by at least +/-8 words across bullets
+- [ ] At least half of bullets have no trailing soft-skill clause
+- [ ] No banned buzzword clusters present unless user-supplied
+- [ ] At least one bullet per role uses a genuinely specific, non-generic detail
+
+---
+
 ## Design and Layout
-Use `references/template-en-ca.html` or `references/template-ca.html` based on EN-CA and FR-CA as a layout and style model for the final output Word DOCX file you will create. I want the Word document layout and style you create looks exactly like those html files or the Word document I attached. Do not reduce font size keep the same size and if your text does not fit the 2 pages max, reformulate or make try to make short text.
+ Do not reduce font size keep the same size and if your text does not fit the 2 pages max, reformulate or make try to make short sentences.
+Read the appropriate reference files:
+- `references/cv-layout-config-en-ca.md` (always)
 
 ## Workflow
 
